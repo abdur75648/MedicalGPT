@@ -138,3 +138,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+*.pth
+OpenI-5-Samples/
+train_logs.txt

@@ -186,6 +186,7 @@ class Chat:
         return output_text, output_token.cpu().numpy()
 
     def upload_img(self, image, conv, img_list):
+        print("Processing Image")
         if isinstance(image, str):  # is a image path
             raw_image = Image.open(image).convert('RGB')
             image = self.vis_processor(raw_image).unsqueeze(0).to(self.device)

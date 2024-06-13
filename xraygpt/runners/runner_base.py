@@ -412,9 +412,9 @@ class RunnerBase:
             if self.config.run_cfg.distributed:
                 dist.barrier()
 
-        # testing phase
-        test_epoch = "best" if len(self.valid_splits) > 0 else cur_epoch
-        self.evaluate(cur_epoch=test_epoch, skip_reload=self.evaluate_only)
+        # # testing phase
+        # test_epoch = "best" if len(self.valid_splits) > 0 else cur_epoch
+        # self.evaluate(cur_epoch=test_epoch, skip_reload=self.evaluate_only)
 
         total_time = time.time() - start_time
         total_time_str = str(datetime.timedelta(seconds=int(total_time)))

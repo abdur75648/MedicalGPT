@@ -138,7 +138,9 @@ class MiniGPT4(Blip2Base):
             print('Load {} training prompts'.format(len(self.prompt_list)))
             print('Prompt Example \n{}'.format(random.choice(self.prompt_list)))
         else:
-            self.prompt_list = []
+            print("No prompt file provided. Expecting prompt in the dataset.")
+        
+        self.prompt_template = prompt_template # '###Patient: {} ###Doctor: '
 
         print('#'*100)
  
@@ -173,8 +175,10 @@ class MiniGPT4(Blip2Base):
         return inputs_llama, atts_llama
 
     def prompt_wrap(self, img_embeds, atts_img, prompt):
-        if prompt:
+        if prompt and type(prompt) == str:
             batch_size = img_embeds.shape[0]
+            if batch_size!=1:
+                raise ValueError("Currently only support batch size 1 for prompt wrapping.")
             p_before, p_after = prompt.split('<ImageHere>')
             p_before_tokens = self.llama_tokenizer(
                 p_before, return_tensors="pt", add_special_tokens=False).to(img_embeds.device)
@@ -191,19 +195,25 @@ class MiniGPT4(Blip2Base):
     def forward(self, samples):
         image = samples["image"]
         img_embeds, atts_img = self.encode_img(image)
-        if hasattr(samples, 'question_split'):  # VQA dataset
-            print('VQA Batch')
-            vqa_prompt = '###Patient: <Img><ImageHere></Img> '
-            img_embeds, atts_img = self.prompt_wrap(img_embeds, atts_img, vqa_prompt)
-        elif self.prompt_list:
-            prompt = random.choice(self.prompt_list)
+        prompt = samples.get("prompt")
+        prompt = '<Img><ImageHere></Img>' + prompt[0]
+        # Format this as per the prompt template
+        prompt = self.prompt_template.format(prompt)
+        
+        img_embeds, atts_img = self.prompt_wrap(img_embeds, atts_img, prompt)
+        # if hasattr(samples, 'question_split'):  # VQA dataset
+        #     print('VQA Batch')
+        #     vqa_prompt = '###Patient: <Img><ImageHere></Img> '
+        #     img_embeds, atts_img = self.prompt_wrap(img_embeds, atts_img, vqa_prompt)
+        # elif self.prompt_list:
+        #     prompt = random.choice(self.prompt_list)
 
-            #for adding finding to prompt 
-            # x, y = prompt.split('###Doctor:')
-            # x = x + ' '.join(samples['finding']) + y
-            # prompt = x + '###Doctor:' + y
+        #     #for adding finding to prompt 
+        #     # x, y = prompt.split('###Doctor:')
+        #     # x = x + ' '.join(samples['finding']) + y
+        #     # prompt = x + '###Doctor:' + y
 
-            img_embeds, atts_img = self.prompt_wrap(img_embeds, atts_img, prompt)
+        #     img_embeds, atts_img = self.prompt_wrap(img_embeds, atts_img, prompt)
 
         self.llama_tokenizer.padding_side = "right"
 

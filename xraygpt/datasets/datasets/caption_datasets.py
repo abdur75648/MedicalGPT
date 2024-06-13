@@ -36,7 +36,8 @@ class CaptionDataset(BaseDataset, __DisplMixin):
         self.img_ids = {}
         n = 0
         for ann in self.annotation:
-            img_id = ann["image_id"]
+            # img_id = ann["image_id"]
+            img_id = ann["image"]
             if img_id not in self.img_ids.keys():
                 self.img_ids[img_id] = n
                 n += 1
@@ -46,15 +47,18 @@ class CaptionDataset(BaseDataset, __DisplMixin):
         # TODO this assumes image input, not general enough
         ann = self.annotation[index]
 
-        img_file = '{:0>12}.png'.format(ann["image_id"])
-        image_path = os.path.join(self.vis_root, img_file)
+        # img_file = '{:0>12}.png'.format(ann["image_id"])
+        # image_path = os.path.join(self.vis_root, img_file)
+        image_path = ann["image"]
         image = Image.open(image_path).convert("RGB")
 
         image = self.vis_processor(image)
         caption = self.text_processor(ann["caption"])
+        prompt = self.text_processor(ann["prompt"])
 
         return {
             "image": image,
+            "prompt": prompt,
             "text_input": caption,
             "image_id": self.img_ids[ann["image_id"]],
         }

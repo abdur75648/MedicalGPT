@@ -39,16 +39,20 @@ class OpenIDataset(CaptionDataset):
         # TODO this assumes image input, not general enough
         ann = self.annotation[index]
 
-        img_file = '{}.png'.format(ann["image_id"])
-        image_path = os.path.join(self.vis_root, img_file)
+        # img_file = '{}.png'.format(ann["image_id"])
+        # image_path = os.path.join(self.vis_root, img_file)
+        image_path = ann["image"]
+        image_path = os.path.join("dataset", image_path)
         image = Image.open(image_path).convert("RGB")
 
         image = self.vis_processor(image)
         caption = ann['caption']
+        prompt = ann['prompt']
 
         return {
             "image": image,
             "caption":caption,
-            "image_id": self.img_ids[ann["image_id"]],
+            "prompt":prompt,    
+            "image_id": self.img_ids[ann["image"]],
         }
 

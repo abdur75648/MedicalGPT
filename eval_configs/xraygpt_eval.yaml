@@ -5,10 +5,10 @@ model:
   freeze_qformer: True
   max_txt_len: 160
   end_sym: "###"
-  low_resource: True
+  low_resource: False
   prompt_path: "prompts/alignment.txt"
   prompt_template: '###Patient: {} ###Doctor: '
-  ckpt: './xraygpt/output/path_to_ckpt'
+  ckpt: './xraygpt/output/xraygpt_openi_finetune/20240613200/checkpoint_12.pth'
 
 
 datasets:

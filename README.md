@@ -2,7 +2,7 @@
 
 ## About XrayGPT
 
-XrayGPT is a state-of-the-art model for chest radiology report generation using large medical vision-language models. Built on top of BLIP-2 and MedCLIP, XrayGPT aligns a frozen visual encoder with a frozen large language model (LLM), Vicuna, using a Q-former. This repository extends XrayGPT for general-purpose medical report generation and Visual Question Answering (VQA).
+XrayGPT is a state-of-the-art model for chest radiology report generation using large medical vision-language models. Built on top of BLIP-2 and MedCLIP, XrayGPT aligns a frozen visual encoder with a frozen large language model (LLM), Vicuna, using a linear projection layer. This repository extends XrayGPT for general-purpose medical report generation and Visual Question Answering (VQA).
 
 - [XrayGPT Paper](https://arxiv.org/abs/2306.07971)
 - [XrayGPT Repository](https://github.com/mbzuai-oryx/XrayGPT)
@@ -30,7 +30,7 @@ pip install safetensors==0.4.3
 ```
 
 ### Setup
-Below is a brief overview of the steps for fine-tuning the model. Detailed instructions for training from scratch are provided in the original repository.
+Below is a brief overview of the steps for fine-tuning the trained XrayGPT model. Instructions for training XrayGPT from scratch are provided in the original repository.
 
 #### 1. Prepare the Datasets for Training
 Publicly available datasets for medical report generation predominantly focus on chest X-ray reports, often derived from sources like MIMIC-CXR/OpenI. While these datasets are valuable, they lack diversity in terms of medical imaging modalities. To address this limitation and enhance the model's capabilities for multi-modality report generation and Visual Question Answering (VQA), we curated a unique dataset by integrating two distinct datasets: OpenI and ROCO.
@@ -48,7 +48,9 @@ Publicly available datasets for medical report generation predominantly focus on
 - **Dataset Size:** 8,000 samples (validation split used)
 - **Usage:** Enables the model to generalize across various medical imaging modalities beyond chest X-rays.
 
-By combining the OpenI and ROCO datasets and processing them using the OpenAI API, we created a comprehensive dataset suitable for training our model. The data integration resulted in a structured dataset stored in the `dataset` folder, facilitating efficient training and evaluation processes.
+By processing the OpenI and ROCO datasets using the OpenAI API and combining them, we created a comprehensive dataset suitable for training our model. The data integration resulted in a structured dataset stored in the `dataset` folder, facilitating efficient training and evaluation processes.
+
+* **Scripts to create the dataset given in [Data_Creation_Scripts](Data_Creation_Scripts/) folder**
 
 The final structure of the dataset folder is as follows:
 
@@ -98,13 +100,9 @@ Run the following command to launch the demo:
 python demo.py --cfg-path eval_configs/xraygpt_eval.yaml --gpu-id 0
 ```
 
-### Important Note
-
-Due to computational constraints, the model was fine-tuned on a very small subset of the newly curated dataset (only 100 samples total). The model is not fully trained, and the results are not accurate. The purpose was to set up the environment and run the code. For better results, please train the model on the complete datasets.
-
 ## Citation
 
-If you use this work, please cite the following paper:
+If you use this work, please cite the following original XrayGPT paper:
 
 ```bibtex
 @article{Omkar2023XrayGPT,

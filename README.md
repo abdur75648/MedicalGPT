@@ -1,6 +1,8 @@
 # MedicalGPT For Medical Report Generation and VQA
 Extending XrayGPT for Multi-Modal Medical Visual Question Answering and Report Generation.
 
+> **Note · Personal R&D (2024):** This repo comes from an independent research project I undertook in 2024 to explore and advance multimodal medical VLMs. I’m sharing it for educational and community use.
+
 ## About XrayGPT
 
 XrayGPT is a state-of-the-art model for chest report generation using large medical vision-language models. Built on top of BLIP-2 and MedCLIP, XrayGPT aligns a frozen visual encoder with a frozen large language model (LLM), Vicuna, using BLIP-2's Q-Former. This repository extends XrayGPT for general-purpose medical report generation and Visual Question Answering (VQA).

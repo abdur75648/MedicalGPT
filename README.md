@@ -1,11 +1,15 @@
-# Medical Report Generation (& VQA) using a VLM (XrayGPT-Based).
+# MedicalGPT For Medical Report Generation and VQA
+Extending XrayGPT for Multi-Modal Medical Visual Question Answering and Report Generation.
 
 ## About XrayGPT
 
-XrayGPT is a state-of-the-art model for chest radiology report generation using large medical vision-language models. Built on top of BLIP-2 and MedCLIP, XrayGPT aligns a frozen visual encoder with a frozen large language model (LLM), Vicuna, using BLIP-2's Q-Former. This repository extends XrayGPT for general-purpose medical report generation and Visual Question Answering (VQA).
+XrayGPT is a state-of-the-art model for chest report generation using large medical vision-language models. Built on top of BLIP-2 and MedCLIP, XrayGPT aligns a frozen visual encoder with a frozen large language model (LLM), Vicuna, using BLIP-2's Q-Former. This repository extends XrayGPT for general-purpose medical report generation and Visual Question Answering (VQA).
 
 - [XrayGPT Paper](https://arxiv.org/abs/2306.07971)
 - [XrayGPT Repository](https://github.com/mbzuai-oryx/XrayGPT)
+
+## MedicalGPT
+This project enhances the XrayGPT model, a specialized VLM for chest X-rays, by transforming it into a versatile, multi-modal medical diagnostics tool. By leveraging a strategic fine-tuning process on a novel, composite dataset, the model's capabilities were extended beyond its original domain to interpret a diverse range of medical images (CT scans, MRIs) and perform both long-form report generation and precise Visual Question Answering (VQA).
 
 ## Using This Repository
 
@@ -77,9 +81,11 @@ vicuna_weights
 ...   
 ```
 
-#### 3. Download the Minigpt-4 Checkpoint
+#### 3. Download the Pretrained XrayGPT Checkpoint
 
-Download the [trained XrayGPT model](https://mbzuaiac-my.sharepoint.com/:u:/g/personal/omkar_thawakar_mbzuai_ac_ae/EbGJZmueJkFAstU965buWs8B7T8tLcks7N-P79gsExRH0Q?e=mVASdV).
+Download the trained XrayGPT model from [here](https://mbzuaiac-my.sharepoint.com/:u:/g/personal/omkar_thawakar_mbzuai_ac_ae/EbGJZmueJkFAstU965buWs8B7T8tLcks7N-P79gsExRH0Q?e=mVASdV).
+
+This checkpoint file contains the trained weights for the Q-Former, which form the bridge between the vision encoder and the LLM.
 
 ### Model Training
 Here we fine-tuned a pretrained XrayGPT model on the dataset created above. The model was initially trained on the MIMIC and OpenI datasets in a two-stage training process.
